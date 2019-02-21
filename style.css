@@ -29,11 +29,11 @@ input {
   font-size: 24px;
 }
 body {
-    background-image: url("brick-wall-1920x1080.png");
+    background-image: url("redditsnoo.jpg");
   }
-  
+
   .jumbotron {
-    background-image: url("llama\ attempt.png");
+    background-image: url("redditsnoo.jpg");
     background-size: cover;
     margin-bottom: 0px
   }
