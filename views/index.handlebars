@@ -1,0 +1,87 @@
+<h1>Reddit Posts</h1>
+
+<ul>
+  {{#each posts}}
+    <li>
+      <p>
+        {{this.id}}. {{this.post}}
+
+        <button data-postid="{{this.id}}" class="delpost">Delete</button>
+      </p>
+    </li>
+  {{/each}}
+</ul>
+
+<h2>Add a post</h2>
+<form id="addpost" class="button-size">
+	<textarea type="text" name="post"></textarea>
+	<button type="submit">Save post!</button>
+</form>
+
+<h2>Update a post</h2>
+<form id="updatepost" class="button-size">
+  <input type="text" name="id" placeholder="id">
+	<textarea type="text" name="post" placeholder="what do you want to update this post title to?"></textarea>
+	<button type="submit">Update post!</button>
+</form>
+
+<script type="text/javascript">
+  $(".delpost").on("click", function(event) {
+    var id = $(this).data("postid");
+
+    // Send the DELETE request.
+    $.ajax("/posts/" + id, {
+      type: "DELETE"
+    }).then(
+      function() {
+        console.log("deleted id ", id);
+        // Reload the page to get the updated list
+        location.reload();
+      }
+    );
+  });
+
+  $("#addpost").on("submit", function(event) {
+    // Make sure to preventDefault on a submit event.
+    event.preventDefault();
+
+    var newpost = {
+      post: $("#addpost [name=post]").val().trim()
+    };
+
+    // Send the POST request.
+    $.ajax("/posts", {
+      type: "POST",
+      data: newpost
+    }).then(
+      function() {
+        console.log("added new post");
+        // Reload the page to get the updated list
+        location.reload();
+      }
+    );
+  });
+
+  $("#updatepost").on("submit", function(event) {
+    // Make sure to preventDefault on a submit event.
+    event.preventDefault();
+
+    var id = $("[name=id]").val().trim();
+
+    var updatedpost = {
+      post: $("#updatepost [name=post]").val().trim()
+    };
+
+    // Send the PUT request.
+    $.ajax("/posts/" + id, {
+      type: "PUT",
+      data: updatedpost
+    }).then(
+      function() {
+        console.log("updated id ", id);
+        // Reload the page to get the updated list
+        location.reload();
+      }
+    );
+  });
+</script>
